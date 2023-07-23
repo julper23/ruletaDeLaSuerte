@@ -2,8 +2,7 @@ import { useState,useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const array_concursantes = [
-    //'kamila Villablanca'-GANADORA
+  /*const array_concursantes = [
     'Julen',
     'Alex',
     'Txipi',
@@ -13,6 +12,10 @@ function App() {
     'Jongar',
     'Sanchito',
     'Marcos',
+  ];*/
+  const array_concursantes = [
+    'Julen',
+    'txipi'
   ];
 
   const [rotation, setRotation] = useState(0);
@@ -98,7 +101,7 @@ function App() {
       let finalAngle = rotationAmount % 360; // Asegura que el ángulo final esté en el rango de 0 a 360 grados
   
       // Calcula el índice del ganador en base al ángulo final de la ruleta
-      let winnerPosition = Math.floor((array_concursantes.length - ((finalAngle) % 360) / (360 / array_concursantes.length)) % array_concursantes.length);
+      let winnerPosition = Math.floor((array_concursantes.length - ((finalAngle+91) % 360) / (360 / array_concursantes.length)) % array_concursantes.length);
       setWinner(array_concursantes[winnerPosition]);
   
       setIsSpinning(false);
@@ -110,10 +113,13 @@ function App() {
       <div className="contenedor">
         <h1>Concursantes</h1>
         <div className="concursantes">
-          <canvas id="idcanvas" width="600" height="600"></canvas>
+          <div className="canvas-container">
+            <div className='centrado'></div>
+            <canvas id="idcanvas" width="600" height="600"></canvas>
+          </div>
           <br />
-          <button onClick={() => { sortear() }}>
-            <span id="idestado">{isSpinning ? "Detener" : "Sortear"}</span>
+          <button onClick={() => { sortear() }} disabled={isSpinning}>
+            <span id="idestado" >{"Sortear"}</span>
           </button>
           <div className="mark-winner">
             
