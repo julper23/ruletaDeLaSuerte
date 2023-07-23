@@ -1,65 +1,62 @@
 import { useState,useEffect } from 'react'
 import './App.css'
-import { Space, Table, Tag } from 'antd';
+import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { HexColorPicker } from "react-colorful";
-
+import { AiFillSetting } from "react-icons/ai";
 function App() {
 
   const [nuevosParticipantes,setNuevosParticipantes] = useState(1)
   const [deletePart,setDeletePart] = useState(1)
+  const [opciones,setOpciones] = useState(false)
   const [array_concursantes, setArray_concursantes] = useState([
     {
       key:1,
       nombre:"1",
-      color:"#00FF00",
+      color:"#00AA00",
     },
     {
       key:2,
       nombre:"2",
-      color:"#0000FF",
+      color:"#0000AA",
     }
   ]);
 
 
   const addParticipante = () => {
+    if (!isSpinning) {
+      let cambios = [...array_concursantes]
 
-    let cambios = [...array_concursantes]
-
-    const nuevosParticipantesArray = Array.from({ length: nuevosParticipantes });
-
-
-    nuevosParticipantesArray.forEach((_,index) => {
-      const newP = {
-          key: new Date().getTime()+ index,
-          nombre: array_concursantes.length + index + 1,
-          color: random_color()
-      };
-      cambios.push(newP);
-  });
+      const nuevosParticipantesArray = Array.from({ length: nuevosParticipantes });
 
 
-    setArray_concursantes(cambios)
+      nuevosParticipantesArray.forEach((_,index) => {
+        const newP = {
+            key: new Date().getTime()+ index,
+            nombre: (array_concursantes.length + index + 1).toString(),
+            color: random_color()
+        };
+        cambios.push(newP);
+      });
+
+
+      setArray_concursantes(cambios)
+    }
   }
 
   const deleteParticipantes = () => {
-    console.log(deletePart);
-    console.log(array_concursantes.length);
-    let cambios = [...array_concursantes]
-    if(array_concursantes.length<= 2) return
-    if(array_concursantes.length<=parseInt(deletePart)){
-      if(array_concursantes.length===parseInt(deletePart)){
+    if (!isSpinning) {
+      let cambios = [...array_concursantes]
+      if(array_concursantes.length<= 2) return
+      if(array_concursantes.length<=parseInt(deletePart)){
         let toDelete = array_concursantes.length -2
         cambios.splice(-toDelete)
       }else{
-        let toDelete = parseInt(deletePart)-array_concursantes.length-1
-        cambios.splice(-toDelete)
+        cambios.splice(-deletePart)
       }
-    }else{
-      cambios.splice(-deletePart)
+      
+      setArray_concursantes(cambios)
     }
-    
-    setArray_concursantes(cambios)
   }
 
   const eliminarParticipante = (item:any) => {
@@ -68,7 +65,7 @@ function App() {
     }
   }
 
-  const changeColor = (color,item) => {
+  const changeColor = (color:any,item:any) => {
 
     let cambios = [...array_concursantes]
     item.color = color
@@ -80,7 +77,7 @@ function App() {
     
   }
 
-  const changeNombre = (text,item) => {
+  const changeNombre = (text:any,item:any) => {
 
     let cambios = [...array_concursantes]
     item.nombre = text
@@ -100,35 +97,24 @@ function App() {
   const columns : ColumnsType<DataType> = [
     {
       title:"Nombre",
-      render: (item)=><input type="text" name="nombre" value={item.nombre} onChange={(t)=>{changeNombre(t.target.value,item)}}/>
+      width: "75px",
+      render: (item)=><input style={{marginLeft:"5px",padding:"5px",borderRadius:"10px",width:"80%"}} type="text" name="numeroAañadir" value={item.nombre} onChange={(t)=>{changeNombre(t.target.value,item)}}/>
     },
     {
       title:"Color",
+      width: "75px",
       render: (item)=><section className="small"><HexColorPicker color={item.color} onChange={(color)=>{changeColor(color,item)}} /></section>
     },
     {
       title:"Eliminar",
-      render:(item)=><button onClick={()=>{eliminarParticipante(item)}} disabled={array_concursantes.length <= 2}>Eliminar</button>
+      width: "45px",
+      render:(item)=><button style={{cursor:"pointer",borderRadius:"10px",padding:"5px",fontSize:"15px",width:"70px"}} onClick={()=>{eliminarParticipante(item)}} disabled={array_concursantes.length <= 2}>Eliminar</button>
     }
   ]
 
-
-
-  /*
-    'Julen',
-    'Alex',
-    'Txipi',
-    'Iban',
-    'Iker',
-    'Avellano',
-    'Jongar',
-    'Sanchito',
-    'Marcos',
-  */
-
   const [isSpinning, setIsSpinning] = useState(false);
-  const [winner, setWinner] = useState(null);
-  function hexToLuma(hexColor) {
+  const [winner, setWinner] = useState<any>(null);
+  function hexToLuma(hexColor:any) {
     // Obtener los componentes de color en formato decimal
     const r = parseInt(hexColor.substr(1, 2), 16);
     const g = parseInt(hexColor.substr(3, 2), 16);
@@ -170,31 +156,30 @@ function App() {
       context.translate(center, center);
       context.rotate(3 * 2 * Math.PI / (5 * array_concursantes.length) + i * 2 * Math.PI / array_concursantes.length);
       context.translate(-center, -center);
-      function findFontSizeToFitText(text, maxWidth, fontName) {
+      function findFontSizeToFitText(text:any, maxWidth:any, fontName:any) {
         let minSize = 1;
         let maxSize = 75; // Valor arbitrario, puedes ajustarlo según tus necesidades
 
         while (minSize < maxSize) {
-            const midSize = Math.ceil((minSize + maxSize) / 2);
-            context.font = `${midSize}px ${fontName}`;
-            const textWidth = context.measureText(text).width;
+          const midSize = Math.ceil((minSize + maxSize) / 2);
+          context.font = `${midSize}px ${fontName}`;
+          const textWidth = context.measureText(text).width;
 
-            if (textWidth+2 <= maxWidth-30) {
-                minSize = midSize;
-            } else {
-                maxSize = midSize - 1;
-            }
+          if (textWidth+2 <= maxWidth-30) {
+              minSize = midSize;
+          } else {
+              maxSize = midSize - 1;
+          }
         }
-
         return minSize;
-    }
+      }
 
     // Calcular el tamaño del texto dinámicamente para que se ajuste dentro del botón (arco)
     var text = array_concursantes[i].nombre;
     var availableWidth = Math.abs(2 * Math.PI * (center - 20) / array_concursantes.length);
 
     // Encontrar el tamaño de fuente adecuado utilizando búsqueda binaria
-    var fontSize = findFontSizeToFitText(text, availableWidth, "Comic Sans MS");
+      context.font = findFontSizeToFitText(text, availableWidth, "Comic Sans MS");
       context.textAlign = "right";
       context.fillStyle = textColor;
       context.fillText(array_concursantes[i].nombre, canvas.width - 35, center);
@@ -252,26 +237,41 @@ function App() {
   return (
     <main>
       <div className="contenedor">
-        <h1 style={{height:"37px"}}>{winner&&winner}</h1>
+        <h1 style={{height:"45px",fontSize:"45px"}}>{winner&&winner}</h1>
+        <div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",alignItems:"flex-start",justifyContent:"space-evenly",alignContent:"center"}}>
         <div className="concursantes">
           <div className="canvas-container">
             <div className='centrado'></div>
             <canvas id="idcanvas" width="600" height="600"></canvas>
           </div>
           <br />
-          <button onClick={() => { sortear() }} disabled={isSpinning}>
-            <span id="idestado" >{"Sortear"}</span>
-          </button>
-          <div className="mark-winner">
-            
+          <div style={{display:'flex',flexDirection:"row",flexWrap:"wrap",justifyContent:"space-evenly",alignItems:"center"}}>
+            <button style={{height:"50px",width:"50px",borderStyle:"none",backgroundColor:"transparent "}}>
+              <AiFillSetting style={{height:"100%",width:"100%",color:"transparent"}}/>
+            </button>
+            <button className='botones' onClick={() => { sortear() }} disabled={isSpinning}>
+              <span id="idestado" >{"Sortear"}</span>
+            </button>
+            <button style={{marginRight:"10px",height:"25px",width:"25px",borderStyle:"none",backgroundColor:"transparent ",zIndex:"1000"}}>
+              <AiFillSetting onClick={()=>{setOpciones(!opciones)}}style={{height:"100%",width:"100%",cursor:"pointer"}}/>
+            </button>
           </div>
         </div>
-        <div className='tablaConcursantes'>
-          <button onClick={()=>{addParticipante()}}>AGREGAR OPCIÓN</button>
-          <input type="number" name="numeroAañadir" min={1} value={nuevosParticipantes} onChange={(t)=>{setNuevosParticipantes(t.target.value)}}/>
-          <button onClick={()=>{deleteParticipantes()}} disabled={array_concursantes.length<= 2}>Eliminar del final</button>
-          <input type="number" name="numeroAañadir" min={1} max={array_concursantes.length-2} value={deletePart} onChange={(t)=>{setDeletePart(t.target.value)}} disabled={array_concursantes.length<= 2}/>
-          <Table columns={columns} dataSource={array_concursantes} pagination={false}/>
+        {opciones&&<div className='tablaConcursantes' style={{marginTop:"15px",display:"flex",flexDirection:"column",alignItems:"center",width:"100%"}}>
+          <div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",justifyContent:"center"}}>
+            <div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",alignContent:"center",justifyContent:"center",margin:"5px"}}>
+              <button style={{cursor:"pointer",borderRadius:"10px",padding:"5px",fontSize:"large",width:"105px"}} onClick={()=>{addParticipante()}} disabled={isSpinning}>AGREGAR</button>
+              <input style={{marginLeft:"5px",padding:"5px",borderRadius:"10px",width:"200px"}} type="number" name="numeroAañadir" min={1} max={200} value={nuevosParticipantes} onChange={(t)=>{setNuevosParticipantes(t.target.value)}}/>
+            </div>
+            <div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",alignContent:"center",justifyContent:"center",margin:"5px"}}>  
+            <button style={{cursor:"pointer",borderRadius:"10px",padding:"5px",fontSize:"large",width:"105px"}} onClick={()=>{deleteParticipantes()}} disabled={array_concursantes.length<= 2||isSpinning}>Eliminar</button>
+            <input style={{marginLeft:"5px",padding:"5px",borderRadius:"10px",width:"200px"}} type="number" name="numeroAañadir" min={1} max={array_concursantes.length-2} value={deletePart} onChange={(t)=>{setDeletePart(t.target.value)}} disabled={array_concursantes.length<= 2}/>
+            </div>
+          </div>
+          <div style={{width:"80%",marginBottom:"20px",minWidth:"404px"}}>
+            <Table style={{marginTop:"15px"}} columns={columns} dataSource={array_concursantes} pagination={false} scroll={{ x:225,y: 500 }} />
+          </div>
+        </div>}
         </div>
       </div>
     </main>

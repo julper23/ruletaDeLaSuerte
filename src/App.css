@@ -8,11 +8,7 @@ body{
 	height: 100vh;
 }
 .contenedor{
-	padding: 10px;
-	width: 980px;
-	max-width: calc(100% - 20px);
-	margin: auto;
-	margin-top: 50px;
+	width: 100%;
 	color: #fff;
 	font-family: sans-serif;
 }
@@ -41,17 +37,6 @@ canvas{
   max-height: 100%;
 }
 
-button{
-	position: relative;
-	padding: 10px 20px;
-	font-size: 18px;
-	background: #bf780f;
-	color: #fff;
-	border-style: none;
-	z-index: 10;
-	cursor: pointer;
-	margin-top: 10px;
-}
 .mark-winner{
 	position: absolute;
 	clip-path: polygon(50% 100%, 10% 0, 90% 0);
@@ -81,3 +66,14 @@ button{
 .small .react-colorful__hue {
   height: 20px;
 }
+
+
+.botones {
+  background-color: yellow;
+  border-radius: 50px;
+  padding: 5px;
+  font-size: xx-large;
+  border:1px solid black;
+  font-weight: bold;
+  cursor: pointer;
+} 
