@@ -19,7 +19,6 @@ body{
 .concursantes{
 	margin-top: 20px;
 	text-align: center;
-	margin: auto;
 	position: relative;
 }
 h1{
@@ -73,4 +72,12 @@ button{
   width: 100px;
   clip-path: polygon(49px 50px, 35px 0, 65px 0);
   z-index: 10;
+}
+
+.small .react-colorful {
+  width: 100px;
+  height: 100px;
+}
+.small .react-colorful__hue {
+  height: 20px;
 }
