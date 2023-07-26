@@ -1,0 +1,181 @@
+body{
+	background: #1a4a86;
+	width: 100%;
+	height: 100vh;
+}
+
+.ruleta_ganador{
+  height: 45px;
+  font-size: 45px;
+	text-align: center;
+}
+
+.ruleta_contenedor{
+	width: 100%;
+  margin-top: 50px;
+	color: #fff;
+	font-family: sans-serif;
+}
+
+.ruleta_ruletaYajustes{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  align-content: center;
+}
+
+.ruleta_concursantes{
+	margin-top: 20px;
+	text-align: center;
+	position: relative;
+}
+
+.ruleta_canvasContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.ruleta_seleccionador{
+  position:absolute;
+  top:0;
+  background-color: red;
+  height: 100px;
+  width: 100px;
+  clip-path: polygon(49px 50px, 35px 0, 65px 0);
+  z-index: 10;
+}
+
+.ruleta_canvas{
+	position: relative;
+	z-index: 1;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.ruleta_botonera{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 20px;
+  z-index: 10;
+}
+
+.ruleta_botonTransparente{
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  background-color: transparent;
+}
+
+.ruleta_iconoTransparente{
+  height: 100%;
+  width: 100%;
+  color: transparent;
+}
+
+.ruleta_botones {
+  background-color: yellow;
+  border-radius: 50px;
+  padding: 5px;
+  font-size: xx-large;
+  border:1px solid black;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.ruleta_botonAjustes{
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  background-color: transparent;
+  z-index: 10;
+}
+
+.ruleta_iconoAjustes{
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.ruleta_ajustes{
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  z-index: 10;
+}
+
+.ruleta_ajustesBotonera{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ruleta_ajustesForm{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  margin: 5px;
+}
+
+.ruleta_ajustesBoton{
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: large;
+  width: 105px;
+}
+
+.ruleta_ajustesInput{
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.ruleta_ajustesTablaContenedor{
+  width: 80%;
+  margin-bottom: 20px;
+  min-width: 404px;
+}
+
+.ruleta_ajustesTabla{
+  margin-top: 15px;
+}
+
+.ruleta_ajustesTablaInput{
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  width: 80%;
+}
+
+.ruleta_ajustesTablaButton{
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 15px;
+  width: 70px;
+}
+
+.small .react-colorful {
+  width: 100px;
+  height: 100px;
+}
+
+.small .react-colorful__hue {
+  height: 20px;
+}
