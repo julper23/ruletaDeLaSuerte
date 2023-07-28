@@ -8,67 +8,105 @@ export default function useRuleta() {
   const [winner, setWinner] = useState(null);
   const [isSpinning, setIsSpinning] = useState(false);
 
+  const [ocultar,setOcultar] = useState(false);
+
   const [concursantes, setConcursantes] = useState([
-    {key:1,nombre:"1",color:"#00AA00"},
-    {key:2,nombre:"2",color:"#0000AA"}
+    {key:1,nombre:"1",color:"#00AA00",visible:true},
+    {key:2,nombre:"2",color:"#0000AA",visible:true}
   ]);
+
+  const [concursantesAll, setConcursantesAll] = useState([
+    {key:1,nombre:"1",color:"#00AA00",visible:true},
+    {key:2,nombre:"2",color:"#0000AA",visible:true}
+  ]);
+
+  const actualizarConcursantes = (conALL) => {setConcursantes(conALL.filter(con => con.visible))}
 
   const addConcursantes = (nConcursantes) => {
     if (!isSpinning) {
-      let cambios = [...concursantes]
+      let cambios = [...concursantesAll]
 
       const newConcursantes = Array.from({ length: nConcursantes });
 
       newConcursantes.forEach((_,index) => {
-        const newP = {key: new Date().getTime()+ index,nombre: (concursantes.length + index + 1).toString(),color: random_color()};
+        const newP = {key: new Date().getTime()+ index,nombre: (concursantesAll.length + index + 1).toString(),color: random_color(),visible:true};
         cambios.push(newP);
       });
 
-      setConcursantes(cambios)
+      setConcursantesAll(cambios)
+      actualizarConcursantes(cambios)
     }
   }
 
   const deleteConcursantes = (nConcursantes) => {
     if (!isSpinning) {
-      let cambios = [...concursantes]
-      if(concursantes.length<= 2) return
-      if(concursantes.length<=parseInt(nConcursantes)){
-        let toDelete = concursantes.length -2
+      let cambios = [...concursantesAll]
+
+      if(concursantesAll.length<= 2) return
+      if(concursantesAll.length<=parseInt(nConcursantes)||concursantesAll.length-parseInt(nConcursantes)<=2){
+        let toDelete = concursantesAll.length -2
         cambios.splice(-toDelete)
       }else{
         cambios.splice(-nConcursantes)
       }
-      setConcursantes(cambios)
+
+      setConcursantesAll(cambios)
+      actualizarConcursantes(cambios)
     }
   }
 
   const deleteConcursante = (item) => {
-    if(concursantes.length >= 3 ){
-      setConcursantes(concursantes.filter(i => i.key != item.key))
+    if(concursantesAll.length >= 3 ){
+      let newCons = concursantesAll.filter(i => i.key != item.key)
+      setConcursantesAll(newCons)
+      actualizarConcursantes(newCons)
     }
   }
 
-  const changeColor = (color,item) => {
-
-    let cambios = [...concursantes]
-    item.color = color
-
-    setConcursantes(cambios.map((i)=>{
+  const changeConcursantesAll = (item) => {
+    let arrayCon = [...concursantesAll]
+    let newCons = arrayCon.map((i)=>{
       if(item.key===i.key){return item}
       return i
-    }))
-    
+    })
+    setConcursantesAll(newCons)
+    actualizarConcursantes(newCons)
+  }
+
+  const changeColor = (color,item) => {
+    item.color = color
+    changeConcursantesAll(item)
   }
 
   const changeNombre = (text,item) => {
-
-    let cambios = [...concursantes]
     item.nombre = text
+    changeConcursantesAll(item)
+  }
 
-    setConcursantes(cambios.map((i)=>{
-      if(item.key===i.key){return item}
+  const chageVision = (item) => {
+    item.visible = !item.visible
+    changeConcursantesAll(item)
+  }
+  
+  const setAllNoVisibles = () => {
+    let cambios = [...concursantesAll]
+    let newCons = cambios.map((i,index)=>{
+      if(index<2){return i}
+      i.visible=false
       return i
-    }))
+    })
+    setConcursantesAll(newCons)
+    actualizarConcursantes(newCons)
+  }
+
+  const setAllVisibles = () => {
+    let cambios = [...concursantesAll]
+    let newCons = cambios.map((i)=>{
+      i.visible=true
+      return i
+    })
+    setConcursantesAll(newCons)
+    actualizarConcursantes(newCons)
   }
 
   async function sortear() {
@@ -96,10 +134,16 @@ export default function useRuleta() {
       // Calcula el índice del ganador en base al ángulo final de la ruleta
       let winnerPosition = Math.floor((concursantes.length - ((finalAngle+91) % 360) / (360 / concursantes.length)) % concursantes.length);
       setWinner(concursantes[winnerPosition].nombre);
-  
-      setIsSpinning(false);
+      if(ocultar&&concursantes.length>2){
+        setTimeout(function () {
+          chageVision(concursantes[winnerPosition])
+          setIsSpinning(false)
+        }, 1000);
+      }else{
+        setIsSpinning(false);
+      }
     }
   }
 
-  return {concursantes,isSpinning,winner,setConcursantes,addConcursantes,deleteConcursantes,deleteConcursante,changeColor,changeNombre,sortear}
+  return {concursantes,concursantesAll,isSpinning,winner,ocultar,setConcursantes,setConcursantesAll,setOcultar,setAllNoVisibles,setAllVisibles,addConcursantes,deleteConcursantes,deleteConcursante,changeColor,changeNombre,chageVision,sortear}
 }

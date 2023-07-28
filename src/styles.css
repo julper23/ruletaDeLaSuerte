@@ -47,7 +47,7 @@ body{
   height: 100px;
   width: 100px;
   clip-path: polygon(49px 50px, 35px 0, 65px 0);
-  z-index: 10;
+  z-index: 1000;
 }
 
 .ruleta_canvas{
@@ -122,12 +122,22 @@ body{
   justify-content: center;
 }
 
+.ruleta_ajustesBotonera2{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 70%;
+  justify-content: space-evenly;
+}
+
 .ruleta_ajustesForm{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
+  align-items: center;
   margin: 5px;
 }
 
@@ -169,6 +179,29 @@ body{
   padding: 5px;
   font-size: 15px;
   width: 70px;
+}
+
+.ruleta_ajustesTablaButtonOjo{
+  cursor: pointer;
+  font-size: xx-large;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+}
+
+.ruleta_ajustesFormButtonOjo{
+  cursor: pointer;
+  font-size: xx-large;
+  margin-left: 5px;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
 }
 
 .small .react-colorful {
